@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 
@@ -35,7 +36,20 @@ public class win {
 		startPanel = new JPanel();
 		startPanel.setLayout(null);
 		startPanel.setBackground(Color.cyan);
-	
+		
+//		startPanel2 = new JPanel();
+//		startPanel2.setLayout(null);
+//		startPanel2.setBackground(Color.white);
+//		startPanel2.setBounds(420, 90, 455, 565);
+		
+		String data[][]={ {"ID","NAME","SALARY"},{"101","Amit","670000"},  
+	              {"102","Jai","780000"},  
+	                          {"101","Sachin","700000"}};  
+	    String column[]={"ID","NAME","SALARY"};  
+	      
+	    JTable jt=new JTable(data,column);
+	    jt.setBackground(Color.white);
+	    jt.setBounds(420, 90, 455, 565);
 		
 		search = new JButton("Search");
 		search.setBounds(30, 450, 75, 35);
@@ -67,11 +81,15 @@ public class win {
 					
 					case "Query 1": qOne();
 									break;
+									
+					case "Query 2": qTwo();
+									break;
 				}
 			}
 		});
 		
 		startPanel.add(startLabel);
+		startPanel.add(jt);
 		startPanel.add(query);
 		startPanel.add(search);
 		startPanel.add(reset);
@@ -138,6 +156,29 @@ public class win {
 		startPanel.add(queryOnePanel);
 		frame.validate();
 		frame.repaint();
+	}
+	
+	public void qTwo(){
+		
+		try {
+			startPanel.remove(queryOnePanel);
+		} catch (Exception e) {
+		}
+		queryTwoPanel = new JPanel();
+		queryTwoPanel.setLayout(null);
+		queryTwoPanel.setBackground(Color.cyan);
+		queryTwoPanel.setBounds(0, 160, 450, 285);
+		queryTwoPanel.setVisible(true);
+		
+		fld = new JTextField("Number of publications");
+		fld.setBounds(40, 30, 170, 40);
+		
+		queryTwoPanel.add(fld);
+		
+		startPanel.add(queryTwoPanel);
+		frame.validate();
+		frame.repaint();
+		
 	}
 	
 	public static void main(String [] args){
