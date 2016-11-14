@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,6 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.SAXException;
 
 
 public class win {
@@ -181,7 +189,21 @@ public class win {
 		
 	}
 	
-	public static void main(String [] args){
+	public static void main(String [] args) throws FileNotFoundException{
 		win n = new win();
+		
+		try {	
+	         File inputFile = new File("dblp.xml");
+//	         if(inputFile.exists())
+//	        	 System.out.println("jhbjj");
+	         SAXParserFactory factory = SAXParserFactory.newInstance();
+	         SAXParser saxParser = factory.newSAXParser();
+	         handler userhandler = new handler();
+	         saxParser.parse(inputFile, userhandler);
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }  
+		
+		
 	}
 }
