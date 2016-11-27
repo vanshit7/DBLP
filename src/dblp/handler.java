@@ -1,5 +1,7 @@
 package dblp;
 
+import java.util.ArrayList;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -10,19 +12,23 @@ public class handler extends DefaultHandler{
 	   boolean bPages = false;
 	   boolean bYear = false;
 	   boolean bVolume = false;
-	   boolean bArticle  = false;
-
+	   boolean bJournal= false;
+	   boolean bNumber = false;
+	   boolean bEe = false;
+	   boolean bUrl = false;
+	   //boolean bArticle  = false;
+	   books name;
+	   ArrayList<books> book =  new ArrayList<books>(); 
+	   
 	  @Override
 	   public void startElement(String uri,
                String localName,
                String qName,
                Attributes attributes)
                  throws SAXException {
-	
+		  
 	      if (qName.equalsIgnoreCase("article")) {
-	         String mDate = attributes.getValue("mdate");
-	         bArticle = true;
-	         System.out.println("mdate : " + mDate);
+	         name = new books();
 	      } else if (qName.equalsIgnoreCase("title")) {
 	    	  bTitle = true;
 	      } else if (qName.equalsIgnoreCase("pages")) {
@@ -33,46 +39,66 @@ public class handler extends DefaultHandler{
 		         bAuthor = true;
 		  } else if (qName.equalsIgnoreCase("year")) {
 		         bYear = true;
+		  } else if(qName.equalsIgnoreCase("journal")){
+			  bJournal = true;
+		  } else if(qName.equalsIgnoreCase("number")){
+			  bNumber = true;
+		  } else if(qName.equalsIgnoreCase("ee")){
+			  bEe = true;
+		  } else if(qName.equalsIgnoreCase("url")){
+			  bUrl = true;
 		  }
+	      	
 	   }
 
 	   @Override
 	   public void endElement(String uri, 
 	      String localName, String qName) throws SAXException {
 	      if (qName.equalsIgnoreCase("article")) {
-	         System.out.println("End Element :" + qName);
-	         System.out.println();
+	         book.add(name);
+	      }
+	      else if(qName.equalsIgnoreCase("dblp")){
+	    	  print();
 	      }
 	   }
 
 	   @Override
 	   public void characters(char ch[], 
 	      int start, int length) throws SAXException {
-		   if(bArticle){
-			   System.out.println("Article: " 
-				         + new String(ch, start, length));
-				         bArticle = false;
-		   }
-		   else if (bAuthor) {
-	         System.out.println("Author: " 
-	         + new String(ch, start, length));
+		   if (bAuthor) {
+	         name.setAuthor(new String(ch, start, length));
 	         bAuthor = false;
 	      } else if (bTitle) {
-	         System.out.println("Title: " 
-	         + new String(ch, start, length));
+	         name.setTitle(new String(ch, start, length));
 	         bTitle = false;
 	      } else if (bPages) {
-	         System.out.println("Pages: " 
-	         + new String(ch, start, length));
+	         name.setPages(new String(ch, start, length));
 	         bPages = false;
 	      } else if (bVolume) {
-	         System.out.println("Volume: " 
-	         + new String(ch, start, length));
+	    	  name.setVolume(new String(ch, start, length));
 	         bVolume = false;
 	      }  else if (bYear) {
-		         System.out.println("Year: " 
-		    	 + new String(ch, start, length));
+		         name.setYear(new String(ch, start, length));
 		    	  bYear = false;
+		   } else if(bJournal){
+			   name.setJournal(new String(ch, start, length));
+			   bJournal = false;
+		   } else if(bNumber){
+			   name.setNumber(new String(ch, start, length));
+			   bNumber = false;
+		   } else if(bEe){
+			   name.setEe(new String(ch, start, length));
+			   bEe = false;
+		   } else if(bUrl){
+			   name.setUrl(new String(ch, start, length));
+			   bUrl = false;
 		   }
 	   }
+	   
+	   public void print(){
+		  for(books b: book){
+			  System.out.println(b);
+		  }
+	   }
+	   
 }
