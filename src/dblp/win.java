@@ -45,10 +45,6 @@ public class win {
 		startPanel.setLayout(null);
 		startPanel.setBackground(Color.cyan);
 		
-//		startPanel2 = new JPanel();
-//		startPanel2.setLayout(null);
-//		startPanel2.setBackground(Color.white);
-//		startPanel2.setBounds(420, 90, 455, 565);
 		
 		String data[][]={ {"ID","NAME","SALARY"},{"101","Amit","670000"},  
 	              {"102","Jai","780000"},  
@@ -194,8 +190,6 @@ public class win {
 		
 		try {	
 	         File inputFile = new File("dblp.xml");
-//	         if(inputFile.exists())
-//	        	 System.out.println("jhbjj");
 	         SAXParserFactory factory = SAXParserFactory.newInstance();
 	         SAXParser saxParser = factory.newSAXParser();
 	         handler userhandler = new handler();

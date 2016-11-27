@@ -1,22 +1,27 @@
 package dblp;
 
-import java.util.jar.Attributes;
-
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class handler extends DefaultHandler{
-	   boolean bAuther = false;
+	   boolean bAuthor = false;
 	   boolean bTitle = false;
 	   boolean bPages = false;
 	   boolean bYear = false;
 	   boolean bVolume = false;
+	   boolean bArticle  = false;
 
-	   public void startElement(String uri, 
-	      String localName, String qName, Attributes attributes)
-	         throws SAXException {
+	  @Override
+	   public void startElement(String uri,
+               String localName,
+               String qName,
+               Attributes attributes)
+                 throws SAXException {
+	
 	      if (qName.equalsIgnoreCase("article")) {
 	         String mDate = attributes.getValue("mdate");
+	         bArticle = true;
 	         System.out.println("mdate : " + mDate);
 	      } else if (qName.equalsIgnoreCase("title")) {
 	    	  bTitle = true;
@@ -24,8 +29,8 @@ public class handler extends DefaultHandler{
 	         bPages = true;
 	      } else if (qName.equalsIgnoreCase("volume")) {
 	         bVolume = true;
-	      } else if (qName.equalsIgnoreCase("auther")) {
-		         bAuther = true;
+	      } else if (qName.equalsIgnoreCase("author")) {
+		         bAuthor = true;
 		  } else if (qName.equalsIgnoreCase("year")) {
 		         bYear = true;
 		  }
@@ -43,10 +48,15 @@ public class handler extends DefaultHandler{
 	   @Override
 	   public void characters(char ch[], 
 	      int start, int length) throws SAXException {
-	      if (bAuther) {
+		   if(bArticle){
+			   System.out.println("Article: " 
+				         + new String(ch, start, length));
+				         bArticle = false;
+		   }
+		   else if (bAuthor) {
 	         System.out.println("Author: " 
 	         + new String(ch, start, length));
-	         bAuther = false;
+	         bAuthor = false;
 	      } else if (bTitle) {
 	         System.out.println("Title: " 
 	         + new String(ch, start, length));
